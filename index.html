@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🌌KREXS CLIVER🎄</title>
+    <style>
+        /* ----- Reset & base ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0b1a;
+            font-family: 'Segoe UI', 'Poppins', system-ui, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            color: #eef2ff;
+        }
+
+        /* ----- Panel chính ----- */
+        .panel {
+            width: 520px;
+            max-width: 100%;
+            background: rgba(10, 12, 30, 0.92);
+            backdrop-filter: blur(18px);
+            border-radius: 40px;
+            padding: 24px 20px 30px;
+            border: 1px solid rgba(120, 180, 255, 0.25);
+            box-shadow: 0 20px 60px rgba(0, 40, 120, 0.6), 0 0 80px rgba(80, 160, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.4s;
+        }
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 180, 255, 0.08), transparent 60%),
+                radial-gradient(circle at 70% 80%, rgba(180, 0, 255, 0.08), transparent 60%);
+            pointer-events: none;
+            animation: orbitGlow 20s linear infinite;
+        }
+        @keyframes orbitGlow {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ----- Brand ----- */
+        .brand {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f0e68c, #ffd966, #f9a825, #ffb74d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 1;
+        }
+        .brand small {
+            font-size: 14px;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
+            display: block;
+            letter-spacing: 4px;
+            font-weight: 300;
+        }
+
+        /* ----- Stats ----- */
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 60px;
+            padding: 8px 18px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(4px);
+            position: relative;
+            z-index: 1;
+        }
+        .stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .stats .badge {
+            background: rgba(0, 200, 255, 0.15);
+            padding: 0 10px;
+            border-radius: 30px;
+            color: #7dd3fc;
+        }
+
+        /* ----- Card kết quả ----- */
+        .card {
+            background: rgba(18, 22, 48, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 28px;
+            padding: 16px 12px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            position: relative;
+            z-index: 1;
+            transition: border-color 0.3s;
+        }
+        .card:hover {
+            border-color: rgba(100, 180, 255, 0.2);
+        }
+
+        .dice-header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+            font-size: 15px;
+            opacity: 0.8;
+            flex-wrap: wrap;
+        }
+        .dice-header span {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 4px 14px;
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .result {
+            font-size: 60px;
+            font-weight: 900;
+            text-align: center;
+            line-height: 1.3;
+            letter-spacing: 2px;
+            transition: 0.15s;
+            margin-top: 2px;
+        }
+        .tai {
+            color: #4ade80;
+            text-shadow: 0 0 40px rgba(74, 222, 128, 0.4), 0 0 80px rgba(74, 222, 128, 0.15);
+        }
+        .xiu {
+            color: #f87171;
+            text-shadow: 0 0 40px rgba(248, 113, 113, 0.4), 0 0 80px rgba(248, 113, 113, 0.15);
+        }
+
+        /* ----- Dự đoán AI ----- */
+        .predict-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            margin: 6px 0 2px;
+            flex-wrap: wrap;
+        }
+        .predict-text {
+            font-size: 44px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            transition: 0.15s;
+        }
+        .predict-text.tai {
+            color: #4ade80;
+            text-shadow: 0 0 50px rgba(74, 222, 128, 0.5);
+        }
+        .predict-text.xiu {
+            color: #f87171;
+            text-shadow: 0 0 50px rgba(248, 113, 113, 0.5);
+        }
+        .percent {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 8px 24px;
+            border-radius: 60px;
+            font-size: 26px;
+            font-weight: 700;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            min-width: 80px;
+            text-align: center;
+        }
+        .percent .pct-high {
+            color: #4ade80;
+        }
+        .percent .pct-low {
+            color: #f87171;
+        }
+
+        /* ----- Lịch sử & Log ----- */
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin: 18px 0 6px;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent);
+        }
+
+        .scroll-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            height: 140px;
+            overflow-y: auto;
+            padding: 8px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(4px);
+            font-size: 12px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+        .scroll-box::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scroll-box::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .scroll-box::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            align-items: center;
+            transition: background 0.1s;
+        }
+        .row.win {
+            background: rgba(74, 222, 128, 0.08);
+            border-left: 3px solid #4ade80;
+        }
+        .row.lose {
+            background: rgba(248, 113, 113, 0.08);
+            border-left: 3px solid #f87171;
+        }
+        .row .tag {
+            padding: 0 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .row .tag.win {
+            color: #4ade80;
+        }
+        .row .tag.lose {
+            color: #f87171;
+        }
+
+        .log-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 3px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+        .log-row .time {
+            color: #64748b;
+        }
+        .log-row .msg {
+            color: #e2e8f0;
+        }
+        .log-row .msg.error {
+            color: #f87171;
+        }
+
+        .note {
+            text-align: center;
+            font-size: 10px;
+            opacity: 0.35;
+            margin-top: 14px;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .panel {
+                padding: 16px 12px;
+            }
+            .brand {
+                font-size: 26px;
+            }
+            .result {
+                font-size: 44px;
+            }
+            .predict-text {
+                font-size: 34px;
+            }
+            .percent {
+                font-size: 20px;
+                padding: 6px 16px;
+                min-width: 60px;
+            }
+            .stats {
+                font-size: 11px;
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="panel">
+        <!-- Brand -->
+        <div class="brand">
+            🌌KREXS CLIVER🎄
+            <small> TELEGRAM @Krexscliver1</small>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <span>📡 Ping: <span id="ping" class="badge">0 ms</span></span>
+            <span>📊 Phiên: <span id="phien" class="badge">--</span></span>
+            <span>✅ OK: <span id="okCount" class="badge">0</span></span>
+        </div>
+
+        <!-- Kết quả -->
+        <div class="card">
+            <div class="dice-header">
+                <span>🎲 <span id="dice">-</span></span>
+                <span>🔢 Tổng: <span id="sum">-</span></span>
+            </div>
+            <div id="resultDisplay" class="result">---</div>
+        </div>
+
+        <!-- Dự đoán AI -->
+        <div class="card" style="margin-top: 8px;">
+            <div style="font-size:13px; opacity:0.6; text-align:center; letter-spacing:1px; margin-bottom:4px;">
+                🤖 DỰ ĐOÁN PHIÊN TIẾP
+            </div>
+            <div class="predict-box">
+                <span id="predictText" class="predict-text">---</span>
+                <span id="predictPercent" class="percent">-</span>
+            </div>
+        </div>
+
+        <!-- Lịch sử dự đoán -->
+        <div class="section-title">
+            📜 Lịch sử dự đoán <span class="line"></span>
+        </div>
+        <div class="scroll-box" id="historyContainer">
+            <div class="row"><span>Chưa có dữ liệu</span><span>--</span></div>
+        </div>
+
+        <!-- Log hệ thống -->
+        <div class="section-title">
+            📋 Log hệ thống <span class="line"></span>
+        </div>
+        <div class="scroll-box" id="logContainer">
+            <div class="log-row"><span class="time">⏳</span><span class="msg">Đang khởi động...</span></div>
+        </div>
+
+        <div class="note">⚡ Tự động gọi API • Tốc độ siêu nhanh • AI vượt bậc</div>
+    </div>
+
+    <script>
+        (() => {
+            // ----- CẤU HÌNH -----
+            const API_URL = 'https://trails-wish-motel-legacy.trycloudflare.com/api/tx';
+
+            // DOM
+            const pingSpan = document.getElementById('ping');
+            const phienSpan = document.getElementById('phien');
+            const okCountSpan = document.getElementById('okCount');
+            const diceSpan = document.getElementById('dice');
+            const sumSpan = document.getElementById('sum');
+            const resultDisplay = document.getElementById('resultDisplay');
+            const predictText = document.getElementById('predictText');
+            const predictPercent = document.getElementById('predictPercent');
+            const historyContainer = document.getElementById('historyContainer');
+            const logContainer = document.getElementById('logContainer');
+
+            // State
+            let lastPhien = null;
+            let okCount = 0;
+            let isFetching = false;
+            let history = []; // chuỗi kết quả thực tế: 'TÀI' hoặc 'XỈU'
+            let predictHistory = []; // { phien, predict, real, win }
+
+            // Bộ nhớ Markov & mẫu
+            let markov = { TT: 0, TX: 0, XT: 0, XX: 0 };
+            let pattern2 = {};
+            let pattern3 = {};
+            let pendingPredict = null; // dự đoán cho phiên hiện tại (chờ kiểm tra)
+
+            // ----- Helper log -----
+            function addLog(message, isError = false) {
+                const entry = document.createElement('div');
+                entry.className = 'log-row';
+                const time = new Date().toLocaleTimeString();
+                entry.innerHTML =
+                    `<span class="time">${time}</span><span class="msg ${isError ? 'error' : ''}">${message}</span>`;
+                logContainer.prepend(entry);
+                if (logContainer.children.length > 40) {
+                    logContainer.removeChild(logContainer.lastChild);
+                }
+            }
+
+            function addHistory(phien, predict, real, win) {
+                predictHistory.unshift({ phien, predict, real, win });
+                if (predictHistory.length > 25) predictHistory.pop();
+                renderHistory();
+            }
+
+            function renderHistory() {
+                let html = '';
+                predictHistory.forEach(item => {
+                    const cls = item.win ? 'win' : 'lose';
+                    const tag = item.win ? '✅' : '❌';
+                    html += `
+                        <div class="row ${cls}">
+                            <span>P${item.phien}</span>
+                            <span>Dự đoán: ${item.predict}</span>
+                            <span>→ ${item.real}</span>
+                            <span class="tag ${cls}">${tag}</span>
+                        </div>
+                    `;
+                });
+                if (!html) html = '<div class="row"><span>Chưa có dữ liệu</span><span>--</span></div>';
+                historyContainer.innerHTML = html;
+            }
+
+            // ----- Học từ kết quả thực -----
+            function learn(prev, curr) {
+                if (prev === 'TÀI' && curr === 'TÀI') markov.TT++;
+                else if (prev === 'TÀI' && curr === 'XỈU') markov.TX++;
+                else if (prev === 'XỈU' && curr === 'TÀI') markov.XT++;
+                else if (prev === 'XỈU' && curr === 'XỈU') markov.XX++;
+
+                if (history.length >= 2) {
+                    const key2 = history.slice(-2).join('');
+                    if (!pattern2[key2]) pattern2[key2] = { T: 0, X: 0 };
+                    if (curr === 'TÀI') pattern2[key2].T++;
+                    else pattern2[key2].X++;
+                }
+
+                if (history.length >= 3) {
+                    const key3 = history.slice(-3).join('');
+                    if (!pattern3[key3]) pattern3[key3] = { T: 0, X: 0 };
+                    if (curr === 'TÀI') pattern3[key3].T++;
+                    else pattern3[key3].X++;
+                }
+            }
+
+            // ----- THUẬT TOÁN DỰ ĐOÁN NÂNG CAO -----
+            function predict() {
+                // Nếu chưa có đủ dữ liệu, dùng xác suất ngẫu nhiên có xu hướng bám
+                if (history.length < 6) {
+                    const last = history.at(-1);
+                    if (!last) {
+                        const r = Math.random();
+                        return { result: r > 0.5 ? 'TÀI' : 'XỈU', percent: 50 + Math.floor(r * 12) };
+                    }
+                    const opposite = last === 'TÀI' ? 'XỈU' : 'TÀI';
+                    return { result: opposite, percent: 56 + Math.floor(Math.random() * 10) };
+                }
+
+                const last = history.at(-1);
+                let score = 0;
+
+                // 1. Markov bậc 1
+                if (last === 'TÀI') {
+                    const total = markov.TT + markov.TX;
+                    if (total > 0) {
+                        const pStay = markov.TT / total;
+                        score += (0.5 - pStay) * 3.0;
+                    }
+                } else {
+                    const total = markov.XX + markov.XT;
+                    if (total > 0) {
+                        const pSwitch = markov.XT / total;
+                        score += (pSwitch - 0.5) * 3.0;
+                    }
+                }
+
+                // 2. Mẫu 2 ký tự
+                if (history.length >= 2) {
+                    const key2 = history.slice(-2).join('');
+                    if (pattern2[key2]) {
+                        const t = pattern2[key2].T || 0;
+                        const x = pattern2[key2].X || 0;
+                        const total = t + x;
+                        if (total > 0) score += ((x - t) / total) * 2.6;
+                    }
+                }
+
+                // 3. Mẫu 3 ký tự
+                if (history.length >= 3) {
+                    const key3 = history.slice(-3).join('');
+                    if (pattern3[key3]) {
+                        const t = pattern3[key3].T || 0;
+                        const x = pattern3[key3].X || 0;
+                        const total = t + x;
+                        if (total > 0) score += ((x - t) / total) * 3.4;
+                    }
+                }
+
+                // 4. Tần suất 5 phiên gần nhất
+                const last5 = history.slice(-5);
+                const t5 = last5.filter(v => v === 'TÀI').length;
+                const x5 = last5.filter(v => v === 'XỈU').length;
+                score += (t5 - x5) * 0.55;
+
+                // 5. Chuỗi liên tiếp (streak)
+                let streak = 1;
+                for (let i = history.length - 1; i > 0; i--) {
+                    if (history[i] === history[i - 1]) streak++;
+                    else break;
+                }
+                if (streak >= 2) {
+                    const factor = last === 'TÀI' ? -2.4 : 2.4;
+                    score += factor * (streak * 0.6);
+                }
+
+                // 6. Hiện tượng zigzag (đảo chiều liên tục)
+                if (history.length >= 8) {
+                    let zigzag = true;
+                    for (let i = 1; i <= 7; i++) {
+                        if (history[history.length - i] === history[history.length - i - 1]) {
+                            zigzag = false;
+                            break;
+                        }
+                    }
+                    if (zigzag) score += (last === 'TÀI' ? 2.8 : -2.8);
+                }
+
+                // 7. Cân bằng dài hạn (10 phiên)
+                const last10 = history.slice(-10);
+                const t10 = last10.filter(v => v === 'TÀI').length;
+                const x10 = last10.filter(v => v === 'XỈU').length;
+                if (t10 >= 7) score -= 3.5;
+                if (x10 >= 7) score += 3.5;
+
+                // 8. Nhiễu nhỏ để tránh bị kẹt
+                if (Math.abs(score) < 1.8) {
+                    score += (Math.random() - 0.5) * 2.0;
+                }
+
+                // Quyết định
+                let finalResult = score >= 0 ? 'TÀI' : 'XỈU';
+                let percent = 60 + Math.min(Math.abs(score) * 6.2, 36);
+                percent = Math.round(Math.min(99, percent));
+
+                // ---- CHỐNG THIÊN VỀ XỈU QUÁ NHIỀU ----
+                // Nếu dự đoán XỈU nhiều lần liên tiếp và độ tin cậy thấp, ưu tiên TÀI
+                if (pendingPredict && pendingPredict.result === 'XỈU') {
+                    window._recentXiu = (window._recentXiu || 0) + 1;
+                } else {
+                    window._recentXiu = 0;
+                }
+                if (window._recentXiu >= 3 && percent < 74) {
+                    finalResult = 'TÀI';
+                    percent = Math.max(percent, 68);
+                    window._recentXiu = 0;
+                }
+
+                // Đảm bảo percent không vượt quá 99
+                percent = Math.min(percent, 99);
+
+                return { result: finalResult, percent };
+            }
+
+            function updatePredictionUI(pred) {
+                predictText.textContent = pred.result;
+                predictText.className = `predict-text ${pred.result === 'TÀI' ? 'tai' : 'xiu'}`;
+                const pctClass = pred.percent >= 70 ? 'pct-high' : 'pct-low';
+                predictPercent.innerHTML = `<span class="${pctClass}">${pred.percent}%</span>`;
+            }
+
+            // ----- XỬ LÝ DỮ LIỆU TỪ API -----
+            function processData(data, latency) {
+                pingSpan.textContent = latency + ' ms';
+
+                if (data.phien && data.phien !== lastPhien) {
+                    lastPhien = data.phien;
+                    const d1 = data.xuc_xac_1;
+                    const d2 = data.xuc_xac_2;
+                    const d3 = data.xuc_xac_3;
+                    const sum = d1 + d2 + d3;
+                    const real = sum >= 11 ? 'TÀI' : 'XỈU';
+
+                    phienSpan.textContent = data.phien;
+                    diceSpan.textContent = `${d1}-${d2}-${d3}`;
+                    sumSpan.textContent = sum;
+                    resultDisplay.textContent = real;
+                    resultDisplay.className = `result ${real === 'TÀI' ? 'tai' : 'xiu'}`;
+
+                    // Kiểm tra dự đoán trước đó
+                    if (pendingPredict) {
+                        const win = pendingPredict.result === real;
+                        addHistory(data.phien, pendingPredict.result, real, win);
+                    }
+
+                    // Học
+                    if (history.length > 0) {
+                        learn(history.at(-1), real);
+                    }
+                    history.push(real);
+                    if (history.length > 120) history.shift();
+
+                    // Dự đoán cho phiên tiếp theo
+                    const pred = predict();
+                    pendingPredict = { result: pred.result };
+                    updatePredictionUI(pred);
+
+                    addLog(`🆕 P${data.phien} | ${d1}-${d2}-${d3} → ${real} (${latency}ms)`);
+                    okCount++;
+                    okCountSpan.textContent = okCount;
+                } else {
+                    addLog(`🔄 Chưa có phiên mới (${latency}ms)`);
+                }
+            }
+
+            // ----- GỌI API -----
+            async function fetchAPI() {
+                if (isFetching) return;
+                isFetching = true;
+                const start = performance.now();
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Cache-Control': 'no-cache'
+                        }
+                    });
+                    const latency = Math.round(performance.now() - start);
+
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                    const data = await response.json();
+                    processData(data, latency);
+                } catch (error) {
+                    const latency = Math.round(performance.now() - start);
+                    pingSpan.textContent = latency + ' ms';
+                    addLog(`❌ Lỗi: ${error.message} (${latency}ms)`, true);
+                    // Vẫn cập nhật dự đoán dựa trên lịch sử nếu có
+                    if (history.length > 0) {
+                        const pred = predict();
+                        updatePredictionUI(pred);
+                        // Không tạo pendingPredict mới vì không có phiên thực
+                    }
+                } finally {
+                    isFetching = false;
+                }
+            }
+
+            // ----- KHỞI ĐỘNG -----
+            function init() {
+                addLog('🚀 KREXS CLIVER đã sẵn sàng. Đang kết nối API...');
+                fetchAPI();
+                setInterval(fetchAPI, 160);
+            }
+
+            init();
+        })();
+    </script>
+</body>
+</html>
